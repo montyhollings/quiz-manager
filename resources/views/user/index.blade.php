@@ -23,10 +23,16 @@
                                           <td>{{$user->role->description}}</td>
                                           <td>{{$user->created_at_date_display}}</td>
                                           <td>
-                                              <div class="btn-group btn-group-sm" role="group" >
-                                                  <a href="{{route('users.edit', [$user->id])}}" class="btn btn-warning">Edit</a>
-                                                  <a href="{{route('users.delete', [$user->id])}}" class="btn btn-danger">Delete</a>
+                                              <div class="dropdown show">
+                                                  <a class="btn btn-secondary dropdown-toggle btn-sm" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                      Options
+                                                  </a>
+                                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                      <a href="{{route('users.edit', [$user->id])}}" class="dropdown-item">Edit</a>
+                                                      <a href="{{route('users.delete', [$user->id])}}" class="dropdown-item">Delete</a>
+                                                  </div>
                                               </div>
+
                                           </td>
                                       </tr>
                                   @endforeach
