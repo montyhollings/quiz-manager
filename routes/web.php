@@ -3,6 +3,7 @@ use App\Http\Controllers\QuizController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuizQuestionController;
+use App\Http\Controllers\QuizTakingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,19 @@ Route::group(['prefix' => '/quizzes', 'as' => 'quizzes.'], function(){
         Route::get('/delete/{question}', [QuizQuestionController::class, 'delete'])->name('delete');
 
     });
+    Route::group(['prefix' => '/take/{quiz_id}', 'as' => 'take.'], function(){
+        Route::get('/initialise', [QuizTakingController::class, 'initialise_quiz'])->name('init');
+        Route::get('/initialise/submit', [QuizTakingController::class, 'submit_init'])->name('submit_init');
+
+        Route::get('/take-quiz/{attempt_id}', [QuizTakingController::class, 'take_quiz'])->name('take_quiz');
+        Route::post('/take-quiz/get-next-question/{attempt_id}', [QuizTakingController::class, 'get_next_question'])->name('get_next_question');
+        Route::post('/take-quiz/save-answer/{attempt_id}', [QuizTakingController::class, 'save_answer'])->name('save_answer');
+
+        Route::get('/take-quiz/summary/{attempt_id}', [QuizTakingController::class, 'summary'])->name('summary');
+
+
+    });
+
 });
 Route::group(['prefix' => '/users', 'as' => 'users.'], function(){
     Route::get('/index', [UserController::class, 'index'])->name('index');

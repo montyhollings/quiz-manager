@@ -3,13 +3,13 @@
 @section('content')
     <div class="container">
         <div class="col-8 offset-2">
-            <div class="card">
+            <div class="card" >
                 <div class="card-header">
                     <h4>Quizzes</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body" >
                     @if(count($quizzes) > 0)
-                        <div class="table-responsive">
+                        <div class="table-responsive ">
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -25,11 +25,18 @@
                                         <td>{{$quiz->name}}</td>
                                         <td>{{$quiz->createdby->name}}</td>
                                         <td>
-                                            <div class="btn-group btn-group-sm" role="group" >
-                                                <button type="button" class="btn btn-success btn-group-sm">View</button>
-                                                <a href="{{route('quizzes.edit', [$quiz->id])}}" class="btn btn-warning">Edit</a>
-                                                <a href="{{route('quizzes.delete', [$quiz->id])}}" class="btn btn-danger">Delete</a>
+                                            <div class="dropdown show">
+                                                <a class="btn btn-secondary dropdown-toggle btn-sm" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Options
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <a href="{{route('quizzes.take.init', [$quiz->id])}}" class="dropdown-item">Take Quiz</a>
+                                                    <a href="" class="dropdown-item">View Attempts</a>
+                                                    <a href="{{route('quizzes.edit', [$quiz->id])}}" class="dropdown-item">Edit</a>
+                                                    <a href="{{route('quizzes.delete', [$quiz->id])}}" class="dropdown-item">Delete</a>
+                                                </div>
                                             </div>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -54,4 +61,19 @@
 
 
 
+@endsection
+@section('custom_javascript')
+    <script>
+        $(document).ready(function() {
+            $('.table-responsive').on('show.bs.dropdown', function () {
+                $('.table-responsive').css( "overflow", "inherit" );
+            });
+
+            $('.table-responsive').on('hide.bs.dropdown', function () {
+                $('.table-responsive').css( "overflow", "auto" );
+            })
+        });
+
+
+    </script>
 @endsection
