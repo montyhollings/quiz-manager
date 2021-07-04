@@ -31,6 +31,7 @@ Route::group(['prefix' => '/quizzes', 'as' => 'quizzes.'], function(){
     Route::post('/create', [QuizController::class, 'submit_create'])->name('submit_create');
 
     Route::get('/edit/{quiz_id}', [QuizController::class, 'edit'])->name('edit');
+    Route::get('/view/{quiz_id}', [QuizController::class, 'view'])->name('view');
     Route::post('/edit/{quiz_id}', [QuizController::class, 'submit_edit'])->name('submit_edit');
 
     Route::get('/delete/{quiz_id}', [QuizController::class, 'delete'])->name('delete');
@@ -41,6 +42,7 @@ Route::group(['prefix' => '/quizzes', 'as' => 'quizzes.'], function(){
         Route::get('/new_question', [QuizQuestionController::class, 'new_question'])->name('new_question');
         Route::post('/submit_question', [QuizQuestionController::class, 'submit_question'])->name('submit_new_question');
         Route::get('/edit/{question}', [QuizQuestionController::class, 'edit'])->name('edit');
+        Route::get('/view/{question}', [QuizQuestionController::class, 'view_question'])->name('view');
         Route::get('/delete/{question}', [QuizQuestionController::class, 'delete'])->name('delete');
 
     });

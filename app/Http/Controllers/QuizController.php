@@ -19,6 +19,8 @@ class QuizController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('usercanview')->only(['view']);
+        $this->middleware('usercanedit')->except(['index','view']);
     }
 
     public function index(Request $request)
@@ -30,7 +32,9 @@ class QuizController extends Controller
     {
         $form_url = route('quizzes.submit_create');
         $Quiz = null;
-        return view('quiz.add_edit', compact('Quiz', 'form_url'));
+        $view = false;
+
+        return view('quiz.add_edit', compact('Quiz', 'form_url', 'view'));
     }
 
     public function submit_create(QuizCreateRequest $request)
@@ -43,25 +47,35 @@ class QuizController extends Controller
         return redirect()->route('home');
     }
 
-    public function edit(Request $request, $QuizID)
+    public function edit(Request $request, $quiz_id)
     {
-        $Quiz = Quiz::findOrFail($QuizID);
-        $form_url = route('quizzes.submit_edit', $QuizID);
-        return view('quiz.add_edit', compact('Quiz', 'form_url'));
+        $Quiz = Quiz::findOrFail($quiz_id);
+        $form_url = route('quizzes.submit_edit', $quiz_id);
+        $view = false;
+
+        return view('quiz.add_edit', compact('Quiz', 'form_url', 'view'));
     }
 
-    public function submit_edit(QuizCreateRequest $request, $QuizID)
+    public function view(Request $request, $quiz_id)
     {
-        $Quiz = Quiz::findOrFail($QuizID);
+        $Quiz = Quiz::findOrFail($quiz_id);
+        $form_url = route('quizzes.submit_edit', $quiz_id);
+        $view = true;
+        return view('quiz.add_edit', compact('Quiz', 'form_url', 'view'));
+    }
+
+    public function submit_edit(QuizCreateRequest $request, $quiz_id)
+    {
+        $Quiz = Quiz::findOrFail($quiz_id);
         $Quiz->update($request->all());
         $request->session()->flash('message', 'Quiz Updated!');
         $request->session()->flash('alert-class', 'alert-success');
         return redirect()->route('home');
     }
 
-    public function delete(Request $request, $QuizID)
+    public function delete(Request $request, $quiz_id)
     {
-        $Quiz = Quiz::findOrFail($QuizID);
+        $Quiz = Quiz::findOrFail($quiz_id);
         $Quiz->delete();
         $request->session()->flash('message', 'Quiz Deleted!');
         $request->session()->flash('alert-class', 'alert-danger');

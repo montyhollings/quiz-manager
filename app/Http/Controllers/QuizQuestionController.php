@@ -15,6 +15,8 @@ class QuizQuestionController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('usercanview')->only(['process','view_question']);
+        $this->middleware('usercanedit')->except(['process','view_question']);
     }
 
     public function process(Request $request, $quiz_id)
@@ -29,17 +31,21 @@ class QuizQuestionController extends Controller
     {
         $Quiz = Quiz::with('questions.answers')->findorfail($quiz_id);
         $Question = null;
+        $view = false;
+
         $form_url = route('quizzes.questions.submit_new_question', [$quiz_id]);
 
-        return view('quiz.questions.add_edit', compact('Quiz', 'Question', 'form_url'));
+        return view('quiz.questions.add_edit', compact('Quiz', 'Question', 'form_url', 'view'));
     }
     public function edit(Request $request, $quiz_id, $question_id)
     {
         $Quiz = Quiz::with('questions.answers')->findorfail($quiz_id);
         $Question = QuizQuestion::with('answers')->findorfail($question_id);
         $form_url = route('quizzes.questions.submit_new_question', [$quiz_id]);
+        $view = false;
 
-        return view('quiz.questions.add_edit', compact('Quiz', 'Question', 'form_url'));
+
+        return view('quiz.questions.add_edit', compact('Quiz', 'Question', 'form_url', 'view'));
     }
 
     public function submit_question(Request $request, $quiz_id)
@@ -133,5 +139,15 @@ class QuizQuestionController extends Controller
         Session::flash('message', 'Question Deleted');
         Session::flash('alert-class', 'alert-danger');
         return redirect()->route('quizzes.questions.process', [$quiz_id]);
+    }
+
+    public function view_question(Request $request, $quiz_id, $question_id)
+    {
+        $Quiz = Quiz::with('questions.answers')->findorfail($quiz_id);
+        $Question = QuizQuestion::with('answers')->findorfail($question_id);
+        $form_url = null;
+        $view = true;
+
+        return view('quiz.questions.add_edit', compact('Quiz', 'Question', 'view', 'form_url'));
     }
 }

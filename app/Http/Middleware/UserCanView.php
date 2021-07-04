@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,11 @@ class UserCanView
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        if(Auth::user()->can_view)
+        {
+            return $next($request);
+        }else{
+            return redirect()->route('home');
+        }
     }
 }

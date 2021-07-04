@@ -32,6 +32,9 @@
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                                     <a href="{{route('quizzes.take.init', [$quiz->id])}}" class="dropdown-item">Take Quiz</a>
                                                     <a href="{{route('quizzes.take.view_attempts', [$quiz->id])}}" class="dropdown-item">View Attempts</a>
+                                                    @if(Auth::user()->can_view)
+                                                        <a href="{{route('quizzes.view', [$quiz->id])}}" class="dropdown-item">View Quiz</a>
+                                                    @endif
                                                     @if(Auth::user()->can_edit)
                                                         <a href="{{route('quizzes.edit', [$quiz->id])}}" class="dropdown-item">Edit</a>
                                                         <a href="{{route('quizzes.delete', [$quiz->id])}}" class="dropdown-item">Delete</a>
@@ -47,13 +50,16 @@
                             </table>
                         </div>
                     @else
-                        <div class="alert alert-info"> No Quizzes found, try <a href="{{route('quizzes.create')}}" class="btn btn-success ml-2">Creating A New Quiz </a> </div>
+                        <div class="alert alert-info"> No Quizzes found @if(Auth::user()->can_edit), try <a href="{{route('quizzes.create')}}" class="btn btn-success ml-2">Creating A New Quiz </a> @endif </div>
                     @endif
 
                 </div>
-                @if(count($quizzes) > 0)
+
+                @if(count($quizzes) > 0 && Auth::user()->can_edit)
                     <div class="card-footer">
+
                         <a href="{{route('quizzes.create')}}" class="btn btn-success float-right"> New Quiz </a>
+
                     </div>
                 @endif
 

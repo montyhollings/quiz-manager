@@ -100,7 +100,7 @@ class QuizTakingController extends Controller
             $Quiz = Quiz::with('attempts')->findorfail($quiz_id);
         }else{
             $Quiz = Quiz::whereHas('attempts', function ($query) {
-                return $query->where('user_id', '=', Auth::user());
+                return $query->where('user_id', '=', Auth::user()->id);
             })->findorfail($quiz_id);
 
         }

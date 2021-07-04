@@ -26,10 +26,21 @@
                                             <td>{{$question->question}}</td>
                                             <td>{{$question->answers->count() ?? 0}}</td>
                                             <td>
-                                                <div class="btn-group btn-group-sm" role="group" >
-                                                    <a href="{{route('quizzes.questions.edit', [$Quiz->id, $question->id])}}" class="btn btn-warning">Edit</a>
-                                                    <a href="{{route('quizzes.questions.delete', [$Quiz->id, $question->id])}}" class="btn btn-danger">Delete</a>
+                                                <div class="dropdown show">
+                                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Options
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        <a href="{{route('quizzes.questions.view', [$Quiz->id, $question->id])}}" class="dropdown-item">View</a>
+
+                                                    @if(Auth::user()->can_edit)
+                                                            <a href="{{route('quizzes.questions.edit', [$Quiz->id, $question->id])}}" class="dropdown-item">Edit</a>
+                                                            <a href="{{route('quizzes.questions.delete', [$Quiz->id, $question->id])}}" class="dropdown-item">Delete</a>
+                                                        @endif
+
+                                                    </div>
                                                 </div>
+
                                             </td>
                                         </tr>
                                     @endforeach
@@ -45,7 +56,9 @@
 
             <div class="card-footer">
                 <a href="{{ route('quizzes.edit', [$Quiz->id]) }}" class="btn btn-warning">Back</a>
-                <a href="{{ route('quizzes.questions.new_question', $Quiz->id) }}" class="btn btn-success float-right">New Question</a>
+                @if(Auth::user()->can_edit)
+                    <a href="{{ route('quizzes.questions.new_question', $Quiz->id) }}" class="btn btn-success float-right">New Question</a>
+                @endif
             </div>
         </div>
     </div>
