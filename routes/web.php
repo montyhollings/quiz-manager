@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuizQuestionController;
 
@@ -20,11 +21,6 @@ Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/create', 'QuizController@create')->name('createQuiz');
-Route::post('/quiz/create', 'QuizController@submitCreate')->name('submitCreateQuiz');
-Route::get('/home/edit/{quizid}', 'QuizController@edit')->name('editQuiz');
-Route::post('/quiz/edit/{quizid}', 'QuizController@submitEdit')->name('submitEditQuiz');
-Route::get('/quiz/delete/{quizid}', 'QuizController@delete')->name('deleteQuiz');
 
 
 Route::group(['prefix' => '/quizzes', 'as' => 'quizzes.'], function(){
@@ -47,4 +43,14 @@ Route::group(['prefix' => '/quizzes', 'as' => 'quizzes.'], function(){
         Route::get('/delete/{question}', [QuizQuestionController::class, 'delete'])->name('delete');
 
     });
+});
+Route::group(['prefix' => '/users', 'as' => 'users.'], function(){
+    Route::get('/index', [UserController::class, 'index'])->name('index');
+    Route::get('/create', [UserController::class, 'create'])->name('create');
+    Route::post('/create', [UserController::class, 'submit_create'])->name('submit_create');
+    Route::get('/edit/{user}', [UserController::class, 'edit'])->name('edit');
+    Route::post('/edit/{user}', [UserController::class, 'submit_edit'])->name('submit_edit');
+    Route::get('/delete/{user}', [UserController::class, 'delete'])->name('delete');
+
+
 });
