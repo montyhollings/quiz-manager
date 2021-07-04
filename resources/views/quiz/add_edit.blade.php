@@ -8,7 +8,11 @@
                     @csrf
                     <div class="card">
                         <div class="card-header">
-                            Create Quiz
+                            @if($Quiz)
+                                Edit Quiz
+                            @else
+                                Create Quiz
+                            @endif
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -43,6 +47,9 @@
                         </div>
                         <div class="card-footer">
                             <button  type="submit" class="btn btn-success float-right"> Submit</button>
+                            @if($Quiz)
+                                <a href="{{route('quizzes.questions.process', [$Quiz->id])}}" class="btn btn-danger "> Edit Questions</a>
+                            @endif
                         </div>
                     </div>
                 </form>

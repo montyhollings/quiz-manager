@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\QuizQuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,8 +33,18 @@ Route::group(['prefix' => '/quizzes', 'as' => 'quizzes.'], function(){
     Route::get('/create', [QuizController::class, 'create'])->name('create');
     Route::post('/create', [QuizController::class, 'submit_create'])->name('submit_create');
 
-    Route::get('/edit/{quizid}', [QuizController::class, 'edit'])->name('edit');
-    Route::post('/edit/{quizid}', [QuizController::class, 'submit_edit'])->name('submit_edit');
+    Route::get('/edit/{quiz_id}', [QuizController::class, 'edit'])->name('edit');
+    Route::post('/edit/{quiz_id}', [QuizController::class, 'submit_edit'])->name('submit_edit');
 
-    Route::get('/delete/{quizid}', [QuizController::class, 'delete'])->name('delete');
+    Route::get('/delete/{quiz_id}', [QuizController::class, 'delete'])->name('delete');
+
+    Route::group(['prefix' => '/questions/{quiz_id}', 'as' => 'questions.'], function(){
+        Route::get('/process', [QuizQuestionController::class, 'process'])->name('process');
+
+        Route::get('/new_question', [QuizQuestionController::class, 'new_question'])->name('new_question');
+        Route::post('/submit_question', [QuizQuestionController::class, 'submit_question'])->name('submit_new_question');
+        Route::get('/edit/{question}', [QuizQuestionController::class, 'edit'])->name('edit');
+        Route::get('/delete/{question}', [QuizQuestionController::class, 'delete'])->name('delete');
+
+    });
 });
