@@ -31,9 +31,11 @@
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                                     <a href="{{route('quizzes.take.init', [$quiz->id])}}" class="dropdown-item">Take Quiz</a>
-                                                    <a href="" class="dropdown-item">View Attempts</a>
-                                                    <a href="{{route('quizzes.edit', [$quiz->id])}}" class="dropdown-item">Edit</a>
-                                                    <a href="{{route('quizzes.delete', [$quiz->id])}}" class="dropdown-item">Delete</a>
+                                                    <a href="{{route('quizzes.take.view_attempts', [$quiz->id])}}" class="dropdown-item">View Attempts</a>
+                                                    @if(Auth::user()->can_edit)
+                                                        <a href="{{route('quizzes.edit', [$quiz->id])}}" class="dropdown-item">Edit</a>
+                                                        <a href="{{route('quizzes.delete', [$quiz->id])}}" class="dropdown-item">Delete</a>
+                                                    @endif
                                                 </div>
                                             </div>
 

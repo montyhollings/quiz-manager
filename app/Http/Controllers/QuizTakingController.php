@@ -92,4 +92,19 @@ class QuizTakingController extends Controller
 
         return view('quiz.summary', compact('Quiz', 'QuizAttempt'));
     }
+
+    public function view_attempts(request $request, $quiz_id)
+    {
+        if(Auth::user()->can_edit)
+        {
+            $Quiz = Quiz::with('attempts')->findorfail($quiz_id);
+        }else{
+            $Quiz = Quiz::whereHas('attempts', function ($query) {
+                return $query->where('user_id', '=', Auth::user());
+            })->findorfail($quiz_id);
+
+        }
+
+        return view('quiz.attempts', compact('Quiz'));
+    }
 }

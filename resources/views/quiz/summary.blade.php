@@ -60,7 +60,7 @@
 
                     </div>
                     <div class="card-footer">
-                        <a href="{{ route('home') }}" class="btn btn-warning">Back to Home</a>
+                        <a href="{{ url()->previous() }}" class="btn btn-warning">Back</a>
                     </div>
                 </div>
 

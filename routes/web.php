@@ -53,6 +53,7 @@ Route::group(['prefix' => '/quizzes', 'as' => 'quizzes.'], function(){
         Route::post('/take-quiz/save-answer/{attempt_id}', [QuizTakingController::class, 'save_answer'])->name('save_answer');
 
         Route::get('/take-quiz/summary/{attempt_id}', [QuizTakingController::class, 'summary'])->name('summary');
+        Route::get('/attempts', [QuizTakingController::class, 'view_attempts'])->name('view_attempts');
 
 
     });

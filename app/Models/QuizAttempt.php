@@ -38,7 +38,7 @@ class QuizAttempt extends Model
     {
         return $this->hasMany(QuizAttemptAnswer::class, 'quiz_attempt_id');
     }
-    public function getCreatedAtDisplayDateTimeAttribute()
+    public function getCreatedAtDateDisplayAttribute()
     {
         return $this->created_at->format('d/m/Y H:i');
     }
